@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rutgers Accounting Society</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --scarlet: oklch(53.453% 0.21478 20.317);
+      /* accent red — buttons, links, highlights */
+      --scarlet-dark: #8f0024d5;
+      /* darker red — hover states */
+      --ink: #1A1917;
+      /* main text color */
+      --paper: #F6F2E8;
+      /* main background (cream) */
+      --paper-2: #EFE9DA;
+      /* secondary background (slightly darker cream) */
+      --ledger: #ec0808;
+      /* dark green accent */
+      --gold: hwb(0 3% 97%);
+      /* gold accent */
+      --rule-strong: #0f0f0f;
+      /* border/divider color */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    @media(max-width:640px) {
+      .wrap {
+        padding: 0 20px;
+      }
+    }
+
+    .ledger-bg {
+      background-image: repeating-linear-gradient(to bottom,
+          transparent, transparent 35px,
+          var(--rule) 35px, var(--rule) 36px);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--paper);
+      border-bottom: 1px solid var(--rule-strong);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 17px;
+      letter-spacing: 0.2px;
+    }
+
+    .brand-name span {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--ink);
+      opacity: 0.55;
+      letter-spacing: 1.5px;
+      font-weight: 400;
+      margin-top: 1px;
+    }
+
+    nav.links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    nav.links a {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      opacity: 0.75;
+      transition: opacity .15s;
+    }
+
+    nav.links a:hover {
+      opacity: 1;
+      color: var(--scarlet);
+    }
+
+    .nav-cta {
+      background: var(--scarlet);
+      color: var(--paper);
+      padding: 9px 18px;
+      font-size: 13.5px;
+      font-weight: 600;
+      border-radius: 2px;
+      font-family: var(--font-mono);
+      letter-spacing: 0.3px;
+    }
+
+    .nav-cta:hover {
+      background: var(--scarlet-dark);
+    }
+
+    .burger {
+      display: none;
+      font-size: 22px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--ink);
+    }
+
+    @media(max-width:820px) {
+      nav.links {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: var(--paper);
+        border-bottom: 1px solid var(--rule-strong);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height .25s ease;
+      }
+
+      nav.links.open {
+        max-height: 340px;
+      }
+
+      nav.links a {
+        padding: 14px 32px;
+        width: 100%;
+        border-top: 1px solid var(--paper-2);
+      }
+
+      .burger {
+        display: block;
+      }
+    }
+
+    header.scrolled {
+      box-shadow: 0 2px 14px rgba(26, 25, 23, 0.08);
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--scarlet);
+      outline-offset: 2px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    .hero {
+      padding: 76px 0 40px;
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ledger);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 26px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    h1.headline {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.06;
+      letter-spacing: -0.5px;
+      max-width: 820px;
+      margin-bottom: 22px;
+    }
+
+    h1.headline em {
+      font-style: italic;
+      color: var(--scarlet);
+      font-weight: 500;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: var(--ink);
+      opacity: 0.78;
+      max-width: 560px;
+      margin-bottom: 34px;
+      font-weight: 400;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 64px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 14px 26px;
+      font-size: 14.5px;
+      font-weight: 600;
+      border-radius: 2px;
+      font-family: var(--font-mono);
+      letter-spacing: 0.3px;
+      transition: background .18s ease, transform .18s ease;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--scarlet);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--ink);
+      color: var(--paper);
+      border: 1px solid var(--ink);
+      padding: 14px 26px;
+      font-size: 14.5px;
+      font-weight: 600;
+      border-radius: 2px;
+      font-family: var(--font-mono);
+      letter-spacing: 0.3px;
+      transition: background .18s ease, transform .18s ease;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      background: var(--scarlet);
+      border-color: var(--scarlet);
+      transform: translateY(-1px);
+    }
+
+    .trial-balance {
+      border: 1px solid var(--rule-strong);
+      background: var(--paper-2);
+    }
+
+    .tb-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--rule-strong);
+      font-family: var(--font-mono);
+    }
+
+    .tb-header .title {
+      font-size: 12.5px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--ledger);
+    }
+
+    .tb-header .date {
+      font-size: 11.5px;
+      opacity: 0.55;
+    }
+
+    .tb-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .tb-col {
+      padding: 24px 22px;
+    }
+
+    .tb-col+.tb-col {
+      border-left: 1px solid var(--rule-strong);
+    }
+
+    .tb-col-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.55;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .tb-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 9px 0;
+      border-bottom: 1px dashed var(--rule);
+      font-size: 14px;
+    }
+
+    .tb-row:last-of-type {
+      border-bottom: none;
+    }
+
+    .tb-row .amt {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      color: var(--ledger);
+    }
+
+    .tb-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 16px 22px;
+      border-top: 2px solid var(--ink);
+      font-family: var(--font-mono);
+      min-height: 0;
+    }
+
+    .tb-footer:empty {
+      display: none;
+    }
+
+    .tb-footer .label {
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .tb-footer .val {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--scarlet);
+    }
+
+    @media(max-width:640px) {
+      .tb-cols {
+        grid-template-columns: 1fr;
+      }
+
+      .tb-col+.tb-col {
+        border-left: none;
+        border-top: 1px solid var(--rule-strong);
+      }
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--rule-strong);
+      margin-top: 0;
+    }
+
+    .stat {
+      padding: 26px 20px;
+      text-align: left;
+    }
+
+    .stat+.stat {
+      border-left: 1px solid var(--rule-strong);
+    }
+
+    .stat-num {
+      font-family: var(--font-mono);
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 600;
+      color: var(--scarlet);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--ink);
+      opacity: 0.6;
+      letter-spacing: 0.3px;
+    }
+
+    @media(max-width:700px) {
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stat:nth-child(2) {
+        border-left: 1px solid var(--rule-strong);
+      }
+
+      .stat:nth-child(3) {
+        border-left: none;
+        border-top: 1px solid var(--rule-strong);
+      }
+
+      .stat:nth-child(4) {
+        border-top: 1px solid var(--rule-strong);
+      }
+    }
+
+    section {
+      padding: 90px 0;
+    }
+
+    .section-head {
+      margin-bottom: 48px;
+      max-width: 640px;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--scarlet);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    h2.section-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(28px, 3.6vw, 40px);
+      letter-spacing: -0.3px;
+      line-height: 1.12;
+    }
+
+    .section-body {
+      margin-top: 20px;
+      font-size: 16px;
+      opacity: 0.78;
+      max-width: 560px;
+    }
+
+    #about {
+      background: var(--paper-2);
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--rule-strong);
+      border: 1px solid var(--rule-strong);
+    }
+
+    .pillar {
+      background: var(--paper-2);
+      padding: 32px 28px;
+      transition: background .2s ease;
+    }
+
+    .pillar:hover {
+      background: var(--paper);
+    }
+
+    .pillar-num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .pillar h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .pillar p {
+      font-size: 14.5px;
+      opacity: 0.75;
+    }
+
+    @media(max-width:760px) {
+      .pillars {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .journal {
+      border-top: 1px solid var(--rule-strong);
+    }
+
+    .entry {
+      display: grid;
+      grid-template-columns: 110px 1fr 160px;
+      gap: 20px;
+      align-items: center;
+      padding: 22px 16px;
+      margin: 0 -16px;
+      border-bottom: 1px solid var(--rule-strong);
+      border-radius: 2px;
+      transition: background .18s ease;
+    }
+
+    .entry:hover {
+      background: var(--paper-2);
+    }
+
+    .entry-date {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--ledger);
+      font-weight: 600;
+    }
+
+    .entry-date .day {
+      display: block;
+      font-size: 22px;
+      color: var(--scarlet);
+      font-weight: 600;
+    }
+
+    .entry-body h4 {
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .entry-body p {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    .entry-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      justify-self: end;
+      padding: 6px 12px;
+      border: 1px solid var(--rule-strong);
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    @media(max-width:700px) {
+      .entry {
+        grid-template-columns: 70px 1fr;
+        row-gap: 8px;
+      }
+
+      .entry-tag {
+        grid-column: 2;
+        justify-self: start;
+      }
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .officer {
+      border-top: 2px solid var(--ink);
+      padding-top: 16px;
+      transition: transform .2s ease;
+    }
+
+    .officer:hover {
+      transform: translateY(-4px);
+    }
+
+    .officer-photo {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--paper-2);
+      border: 1px solid var(--rule-strong);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 30px;
+      color: var(--rule-strong);
+      font-weight: 600;
+    }
+
+    .officer img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      background: var(--paper-2);
+      border: 1px solid var(--rule-strong);
+      margin-bottom: 14px;
+    }
+
+    .officer h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .officer-name-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: nowrap;
+    }
+
+    .li-link {
+      color: var(--ink);
+      opacity: 0.45;
+      transition: opacity .18s ease, color .18s ease;
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 2px;
+      flex-shrink: 0;
+    }
+
+    .li-link:hover {
+      opacity: 1;
+      color: #0783ff;
+    }
+
+    .li-link svg {
+      width: 14px;
+      height: 14px;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .officer p {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--scarlet);
+      letter-spacing: 0.3px;
+    }
+
+    @media(max-width:760px) {
+      .board {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    #gallery {
+      background: var(--paper-2);
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 160px;
+      gap: 4px;
+    }
+
+    .gallery-grid figure {
+      position: relative;
+      overflow: hidden;
+      background: var(--ink);
+      border: 1px solid var(--rule-strong);
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s ease;
+    }
+
+    .gallery-grid figure:hover img {
+      transform: scale(1.04);
+    }
+
+    .gallery-grid figcaption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 10px 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.3px;
+      color: var(--paper);
+      background: linear-gradient(to top, rgba(26, 25, 23, 0.85), transparent);
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+
+    .gallery-grid figure:hover figcaption {
+      opacity: 1;
+    }
+
+    .gallery-grid figure.tall {
+      grid-row: span 2;
+    }
+
+    .gallery-grid figure.wide {
+      grid-column: span 2;
+    }
+
+    @media(max-width:820px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 140px;
+      }
+
+      .gallery-grid figure.wide {
+        grid-column: span 2;
+      }
+    }
+
+    @media(max-width:480px) {
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 120px;
+      }
+    }
+
+    #sponsors {
+      background: var(--ledger);
+      color: var(--paper);
+    }
+
+    #sponsors .section-eyebrow {
+      color: var(--gold);
+    }
+
+    #sponsors .section-body {
+      color: var(--paper);
+      opacity: 0.75;
+    }
+
+    .sponsor-tiers {
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+      margin-top: 10px;
+    }
+
+    .tier-row {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid rgba(246, 242, 232, 0.18);
+      padding-bottom: 22px;
+    }
+
+    .tier-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      width: 90px;
+      flex-shrink: 0;
+    }
+
+    .tier-names {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 28px;
+    }
+
+    .tier-names span {
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-weight: 500;
+      opacity: 0.92;
+    }
+
+    #join {
+      background: var(--paper);
+    }
+
+    .join-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    .dues-card {
+      border: 1px solid var(--rule-strong);
+      background: var(--paper-2);
+      padding: 32px;
+    }
+
+    .dues-price {
+      font-family: var(--font-mono);
+      font-size: 40px;
+      font-weight: 600;
+      color: var(--scarlet);
+      margin-bottom: 4px;
+    }
+
+    .dues-price span {
+      font-size: 14px;
+      color: var(--ink);
+      opacity: 0.6;
+      font-weight: 400;
+    }
+
+    .dues-list {
+      margin-top: 22px;
+      list-style: none;
+    }
+
+    .dues-list li {
+      padding: 10px 0;
+      border-top: 1px dashed var(--rule);
+      font-size: 14.5px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .dues-list li::before {
+      content: '—';
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    @media(max-width:800px) {
+      .join-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    footer {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 56px 0 28px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+
+    .footer-grid h5 {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.55;
+      margin-bottom: 16px;
+    }
+
+    .footer-grid p,
+    .footer-grid a {
+      font-size: 14px;
+      opacity: 0.85;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .footer-grid a:hover {
+      opacity: 1;
+      color: var(--gold);
+    }
+
+    .footer-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      opacity: 0.5;
+      display: block;
+      margin: 14px 0 4px;
+    }
+
+    .footer-label:first-of-type {
+      margin-top: 0;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(246, 242, 232, 0.15);
+      padding-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+      opacity: 0.55;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-family: var(--font-mono);
+    }
+
+    @media(max-width:640px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="wrap nav">
+      <div class="brand">
+        <img src="images/RAS.png" alt="RAS Logo" class="brand-mark">
+        <div class="brand-name">Rutgers Accounting Society<span>Rutgers Business School — Newark</span></div>
+      </div>
+      <nav class="links">
+        <a href="#about">About</a>
+        <a href="#events">Events</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#leadership">Leadership</a>
+        <a href="#sponsors">Sponsors</a>
+        <a href="#join">Join</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a href="#join" class="nav-cta">Join RAS</a>
+      <button class="burger" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Rutgers Business School — Newark</div>
+      <h1 class="headline">Lead. Learn. Serve.</h1>
+      <p class="hero-sub">RAS helps students rise above the crowd by exploring the full scope of the accounting
+        profession such as in public, private, and government. Through professional development, hands-on service, and a
+        network that opens doors.</p>
+      <div class="hero-ctas">
+        <a href="#join" class="btn-primary">Become a member</a>
+        <a href="#events" class="btn-secondary">Upcoming events</a>
+      </div>
+
+      <div class="trial-balance">
+        <div class="tb-header">
+          <span class="title">What we offer</span>
+          <span class="date">Fall 2026</span>
+        </div>
+        <div class="tb-cols">
+          <div class="tb-col">
+            <div class="tb-row"><span>Curiosity about the profession</span></div>
+            <div class="tb-row"><span>Time for workshops &amp; events</span></div>
+            <div class="tb-row"><span>A resume worth sharpening</span></div>
+            <div class="tb-row"><span>An open mind about where accounting leads</span></div>
+          </div>
+          <div class="tb-col">
+            <div class="tb-row"><span>Direct access to Big 4 &amp; regional recruiters</span></div>
+            <div class="tb-row"><span>Technical &amp; interview workshops</span></div>
+            <div class="tb-row"><span>A network that lasts past graduation</span></div>
+            <div class="tb-row"><span>Free membership, real placement outcomes</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats" style="margin-top:1px;">
+        <div class="stat"><span class="stat-num">1,400+</span><span class="stat-label">Community on Instagram</span>
+        </div>
+        <div class="stat"><span class="stat-num">10+</span><span class="stat-label">Recruiting partner firms</span>
+        </div>
+        <div class="stat"><span class="stat-num">92%</span><span class="stat-label">Members placed by senior year</span>
+        </div>
+        <div class="stat"><span class="stat-num">RU-N</span><span class="stat-label">Rutgers Business School,
+            Newark</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-eyebrow">01 — About RAS</div>
+        <h2 class="section-title">A student org runs like the professionals</h2>
+        <p class="section-body">The purpose of our organization exists to help Rutgers–Newark students rise above the
+          crowd by exploring the full scope of the accounting profession. Our mission is to connect members to
+          professionals across various sectors within the areas of public accounting, government, financial regulation,
+          and industry, while building hands-on experience through community service and professional development.</p>
+      </div>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar-num">01</div>
+          <h3>Diverse career exposure</h3>
+          <p>Access to professionals well beyond Big 4 public accounting, including the Federal Bureau of Investigation
+            (FBI), financial regulation (NFA), and real estate (EisnerAmper).</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">02</div>
+          <h3>Professional development</h3>
+          <p>Resume workshops, interview prep, and CPA exam guidance by upperclassmen and firm professionals who've been
+            through the same recruiting cycle.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">03</div>
+          <h3>Hands-on community service</h3>
+          <p>Our VITA partnership with the Ironbound Community Corporation gives members real experience preparing free
+            tax returns for low-income and elderly Newark residents.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="events">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-eyebrow">02 — Upcoming events</div>
+        <h2 class="section-title">This semester's calendar</h2>
+        <p class="section-body">Open to all members!</p>
+      </div>
+      <div class="journal">
+        <div class="entry">
+          <div class="entry-date">SEP<span class="day">09</span></div>
+          <div class="entry-body">
+            <h4>Debunking Accounting Myths with PwC &amp; Deloitte</h4>
+            <p>A candid panel discussion unpacking what the profession is really like, straight from Big 4
+              professionals.</p>
+          </div>
+          <div class="entry-tag">Flagship</div>
+        </div>
+        <div class="entry">
+          <div class="entry-date">SEP<span class="day">23</span></div>
+          <div class="entry-body">
+            <h4>Big 4 Info Session: Audit vs. Advisory</h4>
+            <p>Panel with associates and senior associates comparing service lines, hosted with a Big 4 sponsor.</p>
+          </div>
+          <div class="entry-tag">Recruiting</div>
+        </div>
+        <div class="entry">
+          <div class="entry-date">OCT<span class="day">07</span></div>
+          <div class="entry-body">
+            <h4>Resume &amp; LinkedIn Workshop</h4>
+            <p>Bring a laptop and a draft resume — leave with a version ready to submit.</p>
+          </div>
+          <div class="entry-tag">Workshop</div>
+        </div>
+        <div class="entry">
+          <div class="entry-date">OCT<span class="day">21</span></div>
+          <div class="entry-body">
+            <h4>Beyond the Big 4: Government &amp; Regulation Panel</h4>
+            <p>Hear from professionals in fields like federal law enforcement and financial regulation about
+              non-traditional accounting paths.</p>
+          </div>
+          <div cNARUM, LEIGHANNlass="entry-tag">Careers</div>
+        </div>
+        <div class="entry">
+          <div class="entry-date">FEB<span class="day">03</span></div>
+          <div class="entry-body">
+            <h4>VITA Tax Prep Volunteering Kickoff</h4>
+            <p>Get IRS-certified and prepare free tax returns for Ironbound Community Corporation clients all spring.
+            </p>
+          </div>
+          <div class="entry-tag">Community</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-eyebrow">03 — Gallery</div>
+        <h2 class="section-title">Moments from the semester</h2>
+        <p class="section-body">A look at RAS events, workshops, and the community we've built at Rutgers Business
+          School — Newark.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="leadership">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-eyebrow">04 — Leadership</div>
+        <h2 class="section-title">Executive Board 2026–2027</h2>
+      </div>
+
+      <div class="board">
+        <div class="officer">
+          <img src="images/AbdulKareem Sheikh.jpeg" alt="AbdulKareem Sheikh">
+          <div class="officer-name-row">
+            <h4>AbdulKareem Sheikh</h4><a href="https://www.linkedin.com/in/abdulkareem-sheikh/" class="li-link"
+              aria-label="AbdulKareem Sheikh on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512"
+                width="14" height="14" fill="currentColor">
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg></a>
+          </div>
+          <p>President</p>
+        </div>
+        <div class="officer">
+          <img src="images/Olga Medina.jpeg" alt="Olga Medina">
+          <div class="officer-name-row">
+            <h4>Olga Medina</h4><a href="https://www.linkedin.com/in/olgamedina2024/" class="li-link"
+              aria-label="Olga Medina on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512" width="14"
+                height="14" fill="currentColor">
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg></a>
+          </div>
+          <p>Vice President of Operations</p>
+        </div>
+        <div class="officer">
+          <img src="images/Aadil Ishtiaq.jpeg" alt="Aadil Ishtiaq">
+          <div class="officer-name-row">
+            <h4>Aadil Ishtiaq</h4><a href="https://www.linkedin.com/in/aadil-ishtiaq-a2b09923a/" class="li-link"
+              aria-label="Aadil Ishtiaq on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512"
+                width="14" height="14" fill="currentColor">
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg></a>
+          </div>
+          <p>Vice President of Marketing</p>
+        </div>
+        <div class="officer">
+          <img src="images/Andreas Akdemir.jpeg" alt="Andreas Akdemir">
+          <div class="officer-name-row">
+            <h4>Andreas Akdemir</h4><a href="https://www.linkedin.com/in/andreas-akdemir/" class="li-link"
+              aria-label="Andreas Akdemir on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512"
+                width="14" height="14" fill="currentColor">
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg></a>
+          </div>
+          <p>Secretary</p>
+        </div>
+        <div class="officer">
+          <img src="images/Elier Echaverria.jfif" alt="Elier Echavarria">
+          <div class="officer-name-row">
+            <h4>Elier Echavarria</h4><a href="https://www.linkedin.com/in/elier-echavarria" class="li-link"
+              aria-label="Elier Echeverria on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512"
+                width="14" height="14" fill="currentColor">
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg></a>
+          </div>
+          <p>Treasurer</p>
+        </div>
+        <div class="officer">
+          <img src="images/Daniel Rodas.jfif" alt="Daniel Rodas">
+          <div class="officer-name-row">
+            <h4>Daniel Rodas</h4><a href="https://www.linkedin.com/in/danielrodasherrera/" class="li-link"
+              aria-label="Daniel Rodas on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512" width="14"
+                height="14" fill="currentColor">
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg></a>
+          </div>
+          <p>Director of Fundraising</p>
+        </div>
+        <div class="officer">
+          <img src="images/Roman Albano.png" alt="Roman Albano">
+          <div class="officer-name-row">
+            <h4>Roman Albano</h4><a href="https://www.linkedin.com/in/romanalbano/" class="li-link"
+              aria-label="Roman Albano on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512" width="14"
+                height="14" fill="currentColor">
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg></a>
+          </div>
+          <p>Co-Director of Community Outreach</p>
+        </div>
+        <!-- Added Fernando -->
+        <div class="officer">
+          <img src="images/Fernando Arias.jpg" alt="Fernando Arias">
+          <div class="officer-name-row">
+            <h4>Fernando Arias</h4><a href="https://www.linkedin.com/in/fernando-arias-50589a319/" class="li-link"
+              aria-label="Fernando Arias on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512"
+                width="14" height="14" fill="currentColor">
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg></a>
+          </div>
+          <p>Co-Director of Community Outreach</p>
+        </div>
+        <div class="officer">
+          <img src="images/Samantha Murillo.jfif" alt="Samantha Murillo">
+          <div class="officer-name-row">
+            <h4>Samantha Murillo</h4><a href="https://www.linkedin.com/in/samantha-murillo-smli/" class="li-link"
+              aria-label="Samantha Murillo on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512"
+                width="14" height="14" fill="currentColor">
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg></a>
+          </div>
+          <p>Co-Director of Professional Development</p>
+        </div>
+        <div class="officer">
+          <img src="images/Allen Bobadella.jfif" alt="Allen Bobadella">
+          <div class="officer-name-row">
+            <h4>Allen Bobadella</h4><a href="https://www.linkedin.com/in/allenbobadella/" class="li-link"
+              aria-label="Allen Bobadella on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512"
+                width="14" height="14" fill="currentColor">
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg></a>
+          </div>
+          <p>Co-Director of Professional Development</p>
+        </div>
+
+        <div class="officer">
+          <img src="images/Hyeji Yang.jfif" alt="Hye Ji Yang">
+          <div class="officer-name-row">
+            <h4>Hye Ji Yang</h4><a href="https://www.linkedin.com/in/hye-ji-yang/" class="li-link"
+              aria-label="Hye Ji Yang on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512" width="14"
+                height="14" fill="currentColor">
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg></a>
+          </div>
+          <p>Director of Graphic Design</p>
+        </div>
+        <!-- Added Eva and Daniel J -->
+        <div class="officer">
+          <img src="images/Eva Williams 1.png" alt="Eva Williams">
+          <div class="officer-name-row">
+            <h4>Eva Williams</h4><a href="https://www.linkedin.com/in/eva-williams05/" class="li-link"
+              aria-label="Eva Williams on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512" width="14"
+                height="14" fill="currentColor">
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg></a>
+          </div>
+          <p>Co-Director of Member Relations</p>
+        </div>
+        <div class="officer">
+          <img src="images/Daniel Juarez.jpg" alt="Daniel Juarez">
+          <div class="officer-name-row">
+            <h4>Daniel Juarez</h4><a href="https://www.linkedin.com/in/daniel-juarez29/" class="li-link"
+              aria-label="Daniel Juarez on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512"
+                width="14" height="14" fill="currentColor">
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg></a>
+          </div>
+          <p>Co-Director of Member Relations</p>
+        </div>
+        <!-- NOTE: NEED TO ADD NEEL TAILOR. HE DOES NOT HAVE A LINKED IN PROFILE PICTURE -->
+
+        <!-- <div class="officer">
+          <img src="images/Daniel Juarez.jpg" alt="Daniel Juarez">
+          <div class="officer-name-row">
+            <h4>Daniel Juarez</h4><a href="https://www.linkedin.com/in/daniel-juarez29/" class="li-link"
+              aria-label="Daniel Juarez on LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 448 512"
+                width="14" height="14" fill="currentColor">
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg></a>
+          </div>
+          <p>Co-Director of Member Relations</p>
+        </div> -->
+      </div>
+    </div>
+  </section>
+
+<style>
+  .sponsor-tiers {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    margin-top: 32px;
+  }
+
+  .tier-row {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .tier-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    position: relative;
+    padding-bottom: 12px;
+  }
+
+  .tier-label::after {
+    content: "";
+    display: block;
+    width: 56px;
+    height: 4px;
+    background: #c9a227;
+    margin-top: 10px;
+    border-radius: 2px;
+  }
+
+  .tier-names {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: clamp(20px, 4vw, 48px);
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+  /* white card behind every logo so light/transparent logos stay visible on the red background */
+  .logo-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    flex: 0 1 auto;
+  }
+
+  .tier-names img {
+    height: clamp(36px, 6vw, 64px);
+    width: auto;
+    max-width: min(160px, 24vw);
+    object-fit: contain;
+  }
+
+  /* community partner logos are already on white/colored backgrounds, slightly bigger since there are only 3 */
+  .community-row img {
+    height: clamp(50px, 8vw, 90px);
+    max-width: min(200px, 26vw);
+  }
+
+  .community-partner-name {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #333;
+    text-align: center;
+  }
+</style>
+
+<section id="sponsors" style="width:100%;">
+  <div class="wrap" style="max-width:100%; width:100%; box-sizing:border-box;">
+    <div class="section-head">
+      <div class="section-eyebrow">05 — Our partners</div>
+      <h2 class="section-title">Firms that recruit through RAS</h2>
+    </div>
+
+    <div class="sponsor-tiers">
+
+      <div class="tier-row">
+        <div class="tier-label">Big 4</div>
+        <div class="tier-names">
+          <div class="logo-card"><img src="images/Companies/EY.webp" alt="EY"></div>
+          <div class="logo-card"><img src="images/Companies/kpmg.webp" alt="KPMG"></div>
+          <div class="logo-card"><img src="images/Companies/PWC.webp" alt="PWC"></div>
+          <div class="logo-card"><img src="images/Companies/Deloitte.png" alt="Deloitte"></div>
+        </div>
+      </div>
+
+      <div class="tier-row">
+        <div class="tier-label">National firms</div>
+        <div class="tier-names">
+          <div class="logo-card"><img src="images/Companies/rsm.png" alt="RSM"></div>
+          <div class="logo-card"><img src="images/Companies/bdo.png" alt="BDO"></div>
+          <div class="logo-card"><img src="images/Companies/CohnReznick.png" alt="CohnReznick"></div>
+          <div class="logo-card"><img src="images/Companies/Withum.webp" alt="Withum"></div>
+          <div class="logo-card"><img src="images/Companies/bakertilly.webp" alt="Baker Tilly"></div>
+          <div class="logo-card"><img src="images/Companies/grant thornton.png" alt="Grant Thornton"></div>
+          <div class="logo-card"><img src="images/Companies/Forvis Mazars.png" alt="Forvis Mazars"></div>
+          <div class="logo-card"><img src="images/Companies/EisnerAmper.png" alt="EisnerAmper"></div>
+        </div>
+      </div>
+
+      <div class="tier-row">
+        <div class="tier-label">Community partners</div>
+        <div class="tier-names community-row">
+          <img src="images/Community Partners/ICC.jpg" alt="Ironbound Community Corporation">
+          <img src="images/Community Partners/Franciscan Charities.png" alt="Franciscan Charities">
+          <img src="images/Community Partners/SPARK.png" alt="Save the Park at Riverbank">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <section id="join">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-eyebrow">06 — Join RAS</div>
+      </div>
+      <div class="join-grid">
+        <div class="dues-card">
+          <div class="dues-price">Free Membership</div>
+          <ul class="dues-list">
+            <li>Access to every workshop &amp; recruiting event</li>
+            <li>Eligibility for VITA tax-prep volunteering &amp; IRS certification</li>
+            <li>Priority for Big 4 &amp; national firm info sessions</li>
+            <li>Membership listed on RAS RaiderLink roster</li>
+          </ul>
+        </div>
+        <div>
+          <a href="https://raiderlink.newark.rutgers.edu/RAS/" class="btn-primary"
+            style="display:inline-block; margin-bottom:16px;">Join on RaiderLink</a>
+          <p style="opacity:0.75; font-size:14.5px; max-width:400px;">Questions before you join? Email us at <a
+              href="mailto:rasnewark@gmail.com" style="text-decoration:underline;">rasnewark@gmail.com</a> or message us
+            on Instagram.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h5>Rutgers Accounting Society</h5>
+          <p style="max-width:280px; opacity:0.7;">A student-run professional organization at Rutgers Business School,
+            preparing accounting majors for careers in public accounting, industry, and beyond.</p>
+        </div>
+        <style>
+  .footer-contact h5 {
+    margin-bottom: 8px;
+  }
+
+  .footer-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #888;
+    margin-top: 18px;
+    margin-bottom: 8px;
+  }
+
+  .footer-contact a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    padding: 4px 0;
+    transition: opacity 0.15s ease;
+  }
+
+  .footer-contact a:hover {
+    opacity: 0.7;
+  }
+
+  .footer-contact svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+</style>
+
+<div class="footer-contact">
+  <h5>Contact</h5>
+
+  <span class="footer-label">Email</span>
+  <a href="mailto:rasnewark@gmail.com">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.6"/>
+      <path d="m3 6 9 7 9-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    rasnewark@gmail.com
+  </a>
+
+  <span class="footer-label">Socials</span>
+
+  <a href="https://www.instagram.com/rasnewark/" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"/>
+    </svg>
+    Instagram: @rasnewark
+  </a>
+
+  <a href="https://www.linkedin.com/company/rutgers-accounting-society-ras/" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="2" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="7.2" cy="7.8" r="1.15" fill="currentColor"/>
+      <path d="M7.2 10.8v6.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M11.2 17.2v-3.7c0-1.6 1-2.7 2.4-2.7 1.35 0 2.15.95 2.15 2.65v3.75" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M11.2 10.8v6.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+    LinkedIn: Rutgers Accounting Society
+  </a>
+
+  <a href="https://raiderlink.newark.rutgers.edu/RAS/" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 15.5 15.5 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M11 6.5h2.5A4.5 4.5 0 0 1 18 11v0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M9.5 5.8 12 5a4.5 4.5 0 0 1 4.9 1.4" stroke="currentColor" stroke-width="0" fill="none"/>
+      <path d="M17.5 6.6c1.9 1.9 1.9 5 0 6.9l-1.7 1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M6.5 17.4c-1.9-1.9-1.9-5 0-6.9l1.7-1.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M13 17.5h-2a4.5 4.5 0 0 1-4.5-4.5v0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+    Raider Link: Rutgers Accounting Society
+  </a>
+</div>
+        <div>
+          <h5>Location</h5>
+          <p style="opacity:0.7;">Rutgers Accounting Society<br>249 University Avenue<br>Newark, NJ 07102</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 - 2027 Rutgers Accounting Society. All rights reserved.</span>
+        <span>Built for RAS members, by RAS members.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const burger = document.querySelector('.burger');
+    const links = document.querySelector('nav.links');
+    burger.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open);
+      burger.textContent = open ? '✕' : '☰';
+    });
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      links.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      burger.textContent = '☰';
+    }));
+
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 8);
+    });
+
+    const revealEls = document.querySelectorAll('.section-head, .pillar, .entry, .officer, .tier-row, .dues-card, .gallery-grid figure');
+    revealEls.forEach(el => el.classList.add('reveal'));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+  </script>
+</body>
+
+</html>
