@@ -1,6 +1,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q25Q1STLLC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Q25Q1STLLC');
+</script>
   <title>Rutgers Accounting Society</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -9,17 +18,18 @@
     rel="stylesheet">
   <style>
     .carousel {
+  width: 100%;
   margin-top: 8px;
-  border: 1px solid var(--rule-strong);
-  background: var(--paper-2);
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
+  background: var(--paper);
 }
 
 .carousel-head {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding: 16px 22px;
-  border-bottom: 1px solid var(--rule-strong);
+  padding-bottom: 16px;
   font-family: var(--font-mono);
 }
 
@@ -39,27 +49,40 @@
 .carousel-viewport {
   overflow: hidden;
   width: 100%;
+  /* soft fade at the screen edges */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
 }
 
 .carousel-track {
+  --slide-w: clamp(260px, 24vw, 420px); /* scales with screen width */
+  --scroll-time: 70s; /* higher = slower */
   display: flex;
-  transition: transform .45s cubic-bezier(.65,0,.35,1);
+  width: max-content;
+  animation: carousel-scroll var(--scroll-time) linear infinite;
+  will-change: transform;
+}
+
+.carousel-viewport:hover .carousel-track {
+  animation-play-state: paused;
+}
+
+@keyframes carousel-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 .carousel-slide {
-  flex: 0 0 calc(100% / 3);
+  flex: 0 0 var(--slide-w);
+  width: var(--slide-w);
   border-left: 1px solid var(--rule-strong);
-}
-
-.carousel-slide:first-child {
-  border-left: none;
 }
 
 .carousel-img {
   aspect-ratio: 4 / 3;
   overflow: hidden;
   border-bottom: 1px solid var(--rule-strong);
-  background: var(--paper);
+  background: var(--paper-2);
 }
 
 .carousel-img img {
@@ -95,87 +118,16 @@
   font-weight: 500;
 }
 
-.carousel-foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 22px;
-  border-top: 2px solid var(--ink);
-}
-
-.carousel-dots {
-  display: flex;
-  gap: 7px;
-}
-
-.carousel-dots button {
-  width: 8px;
-  height: 8px;
-  border-radius: 0;
-  border: 1px solid var(--rule-strong);
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  transition: background .15s ease, border-color .15s ease;
-}
-
-.carousel-dots button.active {
-  background: var(--scarlet);
-  border-color: var(--scarlet);
-}
-
-.carousel-nav {
-  display: flex;
-  gap: 8px;
-}
-
-.carousel-btn {
-  width: 34px;
-  height: 34px;
-  background: var(--paper);
-  border: 1px solid var(--rule-strong);
-  color: var(--ink);
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 2px;
-  transition: background .15s ease, color .15s ease, border-color .15s ease;
-}
-
-.carousel-btn:hover {
-  background: var(--scarlet);
-  color: var(--paper);
-  border-color: var(--scarlet);
-}
-
-.carousel-btn:disabled {
-  opacity: 0.35;
-  cursor: default;
-  background: var(--paper);
-  color: var(--ink);
-  border-color: var(--rule-strong);
-}
-
-/* Tablet: 2 visible */
-@media (max-width: 900px) {
-  .carousel-slide {
-    flex: 0 0 50%;
-  }
-}
-
-/* Mobile: 1 visible */
 @media (max-width: 560px) {
-  .carousel-slide {
-    flex: 0 0 100%;
-  }
-  .carousel-head,
-  .carousel-foot {
-    padding: 12px 16px;
-  }
+  .carousel-head { padding-bottom: 12px; }
   .cap-title { font-size: 13px; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-viewport { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .carousel-track { animation: none; }
+}
+
     .sponsor-inquiry {
   margin-top: 64px;
   border: 1px solid var(--rule-strong);
@@ -1233,6 +1185,250 @@
         gap: 28px;
       }
     }
+    /* ===== HERO BANNER ===== */
+.hero { padding: 0; }
+
+.hero-banner {
+  position: relative;
+  background: var(--scarlet);
+  color: var(--paper);
+  overflow: hidden;
+  padding-top: 56px;
+}
+
+/* left squiggle strip (wide screens only) */
+.hero-banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 80px;
+  left: 0;
+  width: 70px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='200' viewBox='0 0 70 200' fill='none' stroke-width='7' stroke-linecap='round'%3E%3Cpath d='M50 10C10 30 10 60 40 80' stroke='%23F6F2E8'/%3E%3Cpath d='M62 70C20 92 20 120 52 142' stroke='%23F5B82E'/%3E%3Cpath d='M18 130C62 150 62 176 24 192' stroke='%23FF8FB1'/%3E%3C/svg%3E") repeat-y;
+}
+
+/* bottom squiggle strip */
+.hero-strip {
+  height: 80px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='70' viewBox='0 0 200 70' fill='none' stroke-width='7' stroke-linecap='round'%3E%3Cpath d='M10 50C30 8 60 8 80 40' stroke='%23F6F2E8'/%3E%3Cpath d='M70 62C92 20 120 20 142 52' stroke='%23F5B82E'/%3E%3Cpath d='M130 18C150 62 176 62 192 24' stroke='%23FF8FB1'/%3E%3C/svg%3E") repeat-x center;
+}
+
+.hero-top {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 40px;
+  align-items: end;
+  margin-bottom: 36px;
+}
+
+.hero-kicker {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 14px;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(38px, 5.4vw, 68px);
+  line-height: 1.04;
+  letter-spacing: -0.5px;
+}
+
+.hero-title em {
+  font-style: italic;
+  font-weight: 500;
+  color: #F5B82E;
+}
+
+.hero-lead {
+  font-size: 17px;
+  line-height: 1.55;
+  opacity: 0.92;
+  max-width: 460px;
+  margin-bottom: 22px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-btn {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  border: 2px solid var(--paper);
+  border-radius: 2px;
+  transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+
+.hero-btn.solid { background: var(--paper); color: var(--ink); }
+.hero-btn.solid:hover { background: #F5B82E; border-color: #F5B82E; transform: translateY(-1px); }
+.hero-btn.outline { background: transparent; color: var(--paper); }
+.hero-btn.outline:hover { background: var(--paper); color: var(--scarlet); transform: translateY(-1px); }
+
+/* photo */
+.hero-photo {
+  position: relative;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.hero-photo img {
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+  object-position: center 85%;   /* keeps faces in frame */
+  display: block;
+  animation: hero-zoom 24s ease-in-out infinite alternate;
+}
+
+@keyframes hero-zoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.06); }
+}
+
+.hero-card {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  z-index: 2;
+  max-width: 380px;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 20px 26px;
+}
+
+.hero-card .card-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--scarlet);
+  margin-bottom: 6px;
+}
+
+.hero-card h2 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+
+.hero-card a {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--scarlet);
+}
+.hero-card a:hover { text-decoration: underline; }
+
+/* stat tiles */
+.stat-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 40px 0 12px;
+}
+
+.tile {
+  padding: 26px 22px;
+  border: 1px solid var(--rule-strong);
+}
+
+.tile .num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: clamp(26px, 3.4vw, 38px);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.tile .lbl { font-size: 13px; opacity: 0.9; }
+
+.tile.red   { background: var(--scarlet); color: var(--paper); }
+.tile.dark  { background: var(--ink);     color: var(--paper); }
+.tile.gold  { background: #F5B82E;        color: var(--ink); }
+.tile.cream { background: var(--paper-2); color: var(--ink); }
+
+/* offer icons */
+.offer-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 56px;
+}
+
+.offer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--paper-2);
+  border: 1px solid var(--rule-strong);
+}
+
+.offer-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--scarlet);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.offer-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.offer span { font-size: 14px; font-weight: 600; line-height: 1.3; }
+
+/* responsive */
+@media (max-width: 1200px) { .hero-banner::before { display: none; } }
+
+@media (max-width: 900px) {
+  .hero-top { grid-template-columns: 1fr; gap: 20px; }
+  .offer-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .hero-banner { padding-top: 40px; }
+  .hero-photo img { aspect-ratio: 3 / 2; object-position: center; }
+  .hero-card { position: static; max-width: none; }
+  .stat-tiles { grid-template-columns: 1fr 1fr; }
+  .hero-strip { height: 60px; }
+}
+
+@media (max-width: 520px) { .offer-row { grid-template-columns: 1fr; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-photo img { animation: none; }
+}
   </style>
 </head>
 
@@ -1258,49 +1454,67 @@
   </header>
 
   <section class="hero">
-    <div class="wrap">
-      <p class="hero-sub">Rutgers Accounting Society (RAS) – Newark Chapter is a premier student-led organization at Rutgers Business School dedicated to preparing students for careers in accounting and related fields. 
-Our mission is to help students rise above the crowd by creating opportunities, building networks, and equipping members with the technical and soft skills needed to become emerging leaders.
-Through professional development workshops, networking events, mentorship opportunities, and community engagement. RAS connects students with top firms, alumni, and faculty while fostering a supportive community for academic and career success.</p>
-      <div class="hero-ctas">
-        <a href="#join" class="btn-primary">Become a member</a>
-        <a href="#events" class="btn-secondary">Upcoming events</a>
+
+  <!-- BANNER -->
+  <div class="hero-banner">
+    <div class="wrap hero-top">
+      <div>
+        <div class="hero-kicker">Rutgers Business School — Newark</div>
+        <h1 class="hero-title"><em>Rise above</em> the crowd.</h1>
       </div>
-
-      <div class="trial-balance">
-        <div class="tb-header">
-          <span class="title">What we offer</span>
-
+      <div class="hero-side">
+        <p class="hero-lead">The student-led accounting community that connects you to top firms, skills, and lifelong friends.</p>
+        <div class="hero-actions">
+          <a href="#join" class="hero-btn solid">Become a member</a>
+          <a href="#events" class="hero-btn outline">Upcoming events</a>
         </div>
-        <div class="tb-cols">
-          <div class="tb-col">
-            <div class="tb-row"><span>Curiosity about the profession</span></div>
-            <div class="tb-row"><span>Time for workshops &amp; events</span></div>
-            <div class="tb-row"><span>A resume worth sharpening</span></div>
-            <div class="tb-row"><span>An open mind about where accounting leads</span></div>
-          </div>
-          <div class="tb-col">
-            <div class="tb-row"><span>Direct access to Big 4 &amp; regional recruiters</span></div>
-            <div class="tb-row"><span>Technical &amp; interview workshops</span></div>
-            <div class="tb-row"><span>A network that lasts past graduation</span></div>
-            <div class="tb-row"><span>Real placement outcomes</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="stats" style="margin-top:1px;">
-        <div class="stat"><span class="stat-num">1,400+</span><span class="stat-label">Members connnected on Instagram</span>
-        </div>
-        <div class="stat"><span class="stat-num">10+</span><span class="stat-label">Recruiting partner firms</span>
-        </div>
-        <div class="stat"><span class="stat-num">11/14</span><span class="stat-label">Of our members are secured with internships & full-time positions before graduation </span>
-        </div>
-        <div class="stat"><span class="stat-num">RU-N</span><span class="stat-label">Rutgers Business School,
-            Newark</span></div>
       </div>
     </div>
-  </section>
 
+    <div class="wrap">
+      <figure class="hero-photo">
+        <img src="images/E-board.JPG" alt="The 2026–2027 Rutgers Accounting Society executive board in front of the New York City skyline">
+        <figcaption class="hero-card">
+          <div class="card-eyebrow">Executive Board</div>
+          <h2>Meet the 2026–2027 E-Board</h2>
+          <a href="#leadership">Meet the team ↗</a>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="hero-strip" aria-hidden="true"></div>
+  </div>
+
+  <!-- STATS + OFFER -->
+  <div class="wrap">
+    <div class="stat-tiles">
+      <div class="tile red"><span class="num">1,400+</span><span class="lbl">Connected on Instagram</span></div>
+      <div class="tile dark"><span class="num">10+</span><span class="lbl">Recruiting partner firms</span></div>
+      <div class="tile gold"><span class="num">11/14</span><span class="lbl">Members placed before graduating</span></div>
+      <div class="tile cream"><span class="num">RU-N</span><span class="lbl">Rutgers Business School, Newark</span></div>
+    </div>
+
+    <div class="offer-row">
+      <div class="offer">
+        <div class="offer-icon"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg></div>
+        <span>Big 4 &amp; regional recruiters</span>
+      </div>
+      <div class="offer">
+        <div class="offer-icon"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h7M9 17h7"/></svg></div>
+        <span>Technical &amp; interview workshops</span>
+      </div>
+      <div class="offer">
+        <div class="offer-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16.5 14.2c2.6.2 4.5 2.2 4.5 5.3"/></svg></div>
+        <span>A network that lasts past graduation</span>
+      </div>
+      <div class="offer">
+        <div class="offer-icon"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg></div>
+        <span>Hands-on community service</span>
+      </div>
+    </div>
+  </div>
+
+</section>
   <section id="about">
     <div class="wrap">
       <div class="section-head">
@@ -1334,84 +1548,73 @@ Through professional development workshops, networking events, mentorship opport
     <div class="wrap">
       <div class="section-head">
         <div class="section-eyebrow">02 — Upcoming events</div>
-        <h2 class="section-title">September Events Calendar</h2>
+        <h2 class="section-title">October Events Calendar</h2>
         <p class="section-body">Open to all members!</p>
       </div>
       <div class="journal">
         <div class="entry">
-          <div class="entry-date">SEP<span class="day">09</span></div>
+          <div class="entry-date">OCT<span class="day">03</span></div>
           <div class="entry-body">
-            <h4>Recruiting Bootcamp with RSM & BDO</h4>
-            <p> Prepare students for Meet the Firms Event (resume tips, personal branding, elevator pitches, business professional attire).</p>
+            <h4>SPARK River Bank Cleanup</h4>
+            <p>Join SPARK to clean up the riverbank from 10am–2pm. <br> Address: 727 Raymond Boulevard, Newark, NJ</p>
           </div>
-          <div class="entry-tag">Professional Development</div>
+          <div class="entry-tag">Community Service</div>
         </div>
         <div class="entry">
-          <div class="entry-date">SEP<span class="day">14</span></div>
+          <div class="entry-date">OCT<span class="day">05</span></div>
           <div class="entry-body">
-            <h4>Intro to RAS</h4>
-             <p>Meet the Rutgers Accounting Society, connect with fellow students, and kick off the semester with an interactive networking bingo activity.</p>
+            <h4>Vision Board</h4>
+            <p>Set your goals for the semester and beyond. 11:30am–12:50pm.</p>
           </div>
           <div class="entry-tag">Social</div>
         </div>
         <div class="entry">
-          <div class="entry-date">SEP<span class="day">16</span></div>
+          <div class="entry-date">OCT<span class="day">07</span></div>
           <div class="entry-body">
-            <h4>Ace the Interview</h4>
-            <p> Learn the ins and outs of the recruiting process, build confidence in your preparation, and make a lasting impression in your interviews.</p>
+            <h4>Intro to NJCPA</h4>
+            <p>Learn about the New Jersey Society of CPAs and the resources available to students. 2:30pm–3:50pm.</p>
+          </div>
+          <div class="entry-tag">Professional Development</div>
+        </div>
+        <div class="entry">
+          <div class="entry-date">OCT<span class="day">12</span></div>
+          <div class="entry-body">
+            <h4>Budget a Dream</h4>
+            <p>Learn practical budgeting skills and plan for your goals. 11:30am–12:50pm.</p>
           </div>
           <div class="entry-tag">Workshop</div>
         </div>
         <div class="entry">
-          <div class="entry-date">SEP<span class="day">19</span></div>
+          <div class="entry-date">OCT<span class="day">14</span></div>
           <div class="entry-body">
-            <h4>Franciscan Charities</h4>
-            <p>Help organize different articles of clothing and hand out food to the homeless from 10am-2pm. <br> Address: 242 S 8th St, Newark, NJ 07103
-            </p>
+            <h4>Inside Public Accounting: Perspectives from Leading Firms</h4>
+            <p>Hear from Deloitte, EY &amp; PwC about life and careers in public accounting. 2:30pm–3:50pm.</p>
+          </div>
+          <div class="entry-tag">Professional Development</div>
+        </div>
+        <div class="entry">
+          <div class="entry-date">OCT<span class="day">19</span></div>
+          <div class="entry-body">
+            <h4>Speed Networking</h4>
+            <p>Practice your pitch and make new connections in quick, fun rounds. 11:30am–12:50pm.</p>
+          </div>
+          <div class="entry-tag">Social</div>
+        </div>
+        <div class="entry">
+          <div class="entry-date">OCT<span class="day">24</span></div>
+          <div class="entry-body">
+            <h4>Franciscan Charities (Co-hosted with ASCM)</h4>
+            <p>Help organize clothing and hand out food to the homeless from 9:00am-12:30pm. <br> Address: 242 S 8th St, Newark, NJ 07103</p>
           </div>
           <div class="entry-tag">Community Service</div>
         </div>
         <div class="entry">
-          <div class="entry-date">SEP<span class="day">21</span></div>
+          <div class="entry-date">OCT<span class="day">26</span></div>
           <div class="entry-body">
-            <h4>LinkedIn Review</h4>
-            <p> Tips and tricks for building your personal brand and strengthening your professional presence on LinkedIn</p>
+            <h4>Build-a-Bond</h4>
+            <p>Connect with fellow members and KPMG professionals. 11:30am–12:50pm.</p>
           </div>
-          <div class="entry-tag">Workshop</div>
-        </div>
-        <div class="entry">
-          <div class="entry-date">SEP<span class="day">23</span></div>
-          <div class="entry-body">
-            <h4>Verizon Tax Pathways Spotlight</h4>
-            <p>Explore corporate tax career paths and learn about early carrer opportunities and professional development at Verizon.
-            </p>
-          </div>
-          <div class="entry-tag">Professional Development</div>
-        </div>
-        <div class="entry">
-          <div class="entry-date">SEP<span class="day">26</span></div>
-          <div class="entry-body">
-            <h4>SPARK River Cleanup</h4>
-            <p>Join SPARK to clean up Riverbank from 10am–2pm — gloves, bags, and grabbers provided. <br> Address: Details Coming Soon!
-            </p>
-          </div>
-          <div class="entry-tag">Community Service</div>
-        </div>
-        <div class="entry">
-          <div class="entry-date">SEP<span class="day">28</span></div>
-          <div class="entry-body">
-            <h4>NFA Event</h4>
-            <p>Learn more about the National Futures Association and their significance in accounting and finance</p>
-          </div>
-          <div class="entry-tag">Professional Development</div>
-        </div>
-        <div class="entry">
-          <div class="entry-date">SEP<span class="day">30</span></div>
-          <div class="entry-body">
-            <h4>Young Professionals Panel</h4>
-            <p>Learn about the experiences of young professionals within the accounting industry</p>
-          </div>
-          <div class="entry-tag">Professional Development</div>
+          <div class="entry-tag">Social</div>
         </div>
       </div>
     </div>
@@ -1422,59 +1625,75 @@ Through professional development workshops, networking events, mentorship opport
     <div class="section-head">
       <div class="section-eyebrow">03 — Gallery</div>
     </div>
+    <div class="carousel-head">
+      <span class="carousel-label">Photo log</span>
+    </div>
+  </div>
 
-    <div class="carousel" id="galleryCarousel">
-      <div class="carousel-head">
-        <span class="carousel-label">Photo log</span>
-        <span class="carousel-count" id="carouselCount">01–03 / 05</span>
-      </div>
+  <div class="carousel" id="galleryCarousel">
+    <div class="carousel-viewport">
+      <div class="carousel-track">
 
-      <div class="carousel-viewport">
-        <div class="carousel-track">
+          <!-- SET 1 -->
           <figure class="carousel-slide">
-            <div class="carousel-img"><img src="images/Gallery/Intro to RAS 2025.JPG" alt="Intro to RAS 2025"></div>
-            <figcaption>
-              <span class="cap-title">Intro to RAS</span>
-              <span class="cap-date">Sept 2025</span>
-            </figcaption>
+            <div class="carousel-img"><img src="images/Gallery/Recruiting Bootcamp.JPG" alt="Recruiting Bootcamp" loading="lazy"></div>
+            <figcaption><span class="cap-title">Recruiting Bootcamp</span><span class="cap-date">Sept 9, 2026</span></figcaption>
           </figure>
           <figure class="carousel-slide">
-            <div class="carousel-img"><img src="images/Gallery/VITA Info Session - Fall 2025.jpg" alt="VITA Info Session - Fall 2025"></div>
-            <figcaption>
-              <span class="cap-title">VITA Info Session</span>
-              <span class="cap-date">Nov 2025</span>
-            </figcaption>
+            <div class="carousel-img"><img src="images/Gallery/Bingo Event.JPG" alt="Intro to RAS Networking Bingo" loading="lazy"></div>
+            <figcaption><span class="cap-title">Intro to RAS: Networking Bingo</span><span class="cap-date">Sept 14, 2026</span></figcaption>
           </figure>
           <figure class="carousel-slide">
-            <div class="carousel-img"><img src="images/Gallery/KPMG Lunch And Learn - Spring 2026.JPG" alt="KPMG Lunch And Learn - Spring 2026"></div>
-            <figcaption>
-              <span class="cap-title">KPMG Lunch And Learn</span>
-              <span class="cap-date">Feb 2026</span>
-            </figcaption>
+            <div class="carousel-img"><img src="images/Gallery/E-Board Introduction.JPG" alt="E-Board Introduction" loading="lazy"></div>
+            <figcaption><span class="cap-title">E-Board Introduction</span><span class="cap-date">Sept 2026</span></figcaption>
           </figure>
           <figure class="carousel-slide">
-            <div class="carousel-img"><img src="images/Gallery/Beyond Labels Event - March 2026.JPG" alt="Beyond Labels Event - March 2026"></div>
-            <figcaption>
-              <span class="cap-title">Beyond Labels Event</span>
-              <span class="cap-date">March 2026</span>
-            </figcaption>
+            <div class="carousel-img"><img src="images/Gallery/RAS Tabling.JPG" alt="RAS Tabling" loading="lazy"></div>
+            <figcaption><span class="cap-title">RAS Tabling</span><span class="cap-date">Sept 2026</span></figcaption>
           </figure>
           <figure class="carousel-slide">
-            <div class="carousel-img"><img src="images/Gallery/NFA Info Session - April 2026.JPG" alt="NFA Info Session - April 2026"></div>
-            <figcaption>
-              <span class="cap-title">NFA Info Session</span>
-              <span class="cap-date">April 2026</span>
-            </figcaption>
+            <div class="carousel-img"><img src="images/Gallery/Dinosaur.jpeg" alt="Dinosaur" loading="lazy"></div>
+            <figcaption><span class="cap-title">Dinosaur</span><span class="cap-date">Sept 2026</span></figcaption>
           </figure>
-          <!-- Add more <figure class="carousel-slide"> blocks the same way -->
-        </div>
-      </div>
+          <figure class="carousel-slide">
+            <div class="carousel-img"><img src="images/Gallery/Verizon.JPG" alt="Verizon Tax Pathways Spotlight" loading="lazy"></div>
+            <figcaption><span class="cap-title">Verizon Tax Pathways Spotlight</span><span class="cap-date">Sept 23, 2026</span></figcaption>
+          </figure>
+          <figure class="carousel-slide">
+            <div class="carousel-img"><img src="images/Gallery/Young Professionals Event.JPG" alt="Young Professionals Panel" loading="lazy"></div>
+            <figcaption><span class="cap-title">Deloitte & PWC Young Professionals Panel</span><span class="cap-date">Sept 30, 2026</span></figcaption>
+          </figure>
 
-      <div class="carousel-foot">
-        <div class="carousel-dots" role="tablist" aria-label="Gallery slides"></div>
-        <div class="carousel-nav">
-          <button class="carousel-btn prev" aria-label="Previous images">&#8592;</button>
-          <button class="carousel-btn next" aria-label="Next images">&#8594;</button>
+          <!-- SET 2: exact duplicate of set 1 (needed for the seamless loop) -->
+          <figure class="carousel-slide" aria-hidden="true">
+            <div class="carousel-img"><img src="images/Gallery/Recruiting Bootcamp.JPG" alt="" loading="lazy"></div>
+            <figcaption><span class="cap-title">Recruiting Bootcamp</span><span class="cap-date">Sept 9, 2026</span></figcaption>
+          </figure>
+          <figure class="carousel-slide" aria-hidden="true">
+            <div class="carousel-img"><img src="images/Gallery/Bingo Event.JPG" alt="" loading="lazy"></div>
+            <figcaption><span class="cap-title">Intro to RAS: Networking Bingo</span><span class="cap-date">Sept 14, 2026</span></figcaption>
+          </figure>
+          <figure class="carousel-slide" aria-hidden="true">
+            <div class="carousel-img"><img src="images/Gallery/E-Board Introduction.JPG" alt="" loading="lazy"></div>
+            <figcaption><span class="cap-title">E-Board Introduction</span><span class="cap-date">Sept 2026</span></figcaption>
+          </figure>
+          <figure class="carousel-slide" aria-hidden="true">
+            <div class="carousel-img"><img src="images/Gallery/RAS Tabling.JPG" alt="" loading="lazy"></div>
+            <figcaption><span class="cap-title">RAS Tabling</span><span class="cap-date">Sept 2026</span></figcaption>
+          </figure>
+          <figure class="carousel-slide" aria-hidden="true">
+            <div class="carousel-img"><img src="images/Gallery/Dinosaur.jpeg" alt="" loading="lazy"></div>
+            <figcaption><span class="cap-title">Dinosaur</span><span class="cap-date">Sept 2026</span></figcaption>
+          </figure>
+          <figure class="carousel-slide" aria-hidden="true">
+            <div class="carousel-img"><img src="images/Gallery/Verizon.JPG" alt="" loading="lazy"></div>
+            <figcaption><span class="cap-title">Verizon Tax Pathways Spotlight</span><span class="cap-date">Sept 23, 2026</span></figcaption>
+          </figure>
+          <figure class="carousel-slide" aria-hidden="true">
+            <div class="carousel-img"><img src="images/Gallery/Young Professionals Event.JPG" alt="" loading="lazy"></div>
+            <figcaption><span class="cap-title">Young Professionals Panel</span><span class="cap-date">Sept 30, 2026</span></figcaption>
+          </figure>
+
         </div>
       </div>
     </div>
@@ -2016,98 +2235,38 @@ Newark, NJ 07102
       });
   });
 </script>
-<!-- SCRIPT FOR SLIDER FOR GALLERY SECTION -->
+<!-- Analytics: custom events -->
 <script>
 (function () {
-  const carousel = document.getElementById('galleryCarousel');
-  if (!carousel) return;
-
-  const track = carousel.querySelector('.carousel-track');
-  const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
-  const prevBtn = carousel.querySelector('.carousel-btn.prev');
-  const nextBtn = carousel.querySelector('.carousel-btn.next');
-  const dotsWrap = carousel.querySelector('.carousel-dots');
-  const countEl = document.getElementById('carouselCount');
-
-  let index = 0;
-  let perView = getPerView();
-
-  function getPerView() {
-    const w = window.innerWidth;
-    if (w <= 560) return 1;
-    if (w <= 900) return 2;
-    return 3;
+  function track(name, params) {
+    if (typeof gtag === 'function') gtag('event', name, params || {});
   }
 
-  function maxIndex() {
-    return Math.max(0, slides.length - perView);
-  }
+  // Clicks on key links/buttons
+  document.addEventListener('click', function (e) {
+    const a = e.target.closest('a');
+    if (!a) return;
+    const href = a.getAttribute('href') || '';
 
-  function pad(n) {
-    return String(n).padStart(2, '0');
-  }
-
-  function buildDots() {
-    dotsWrap.innerHTML = '';
-    const pageCount = maxIndex() + 1;
-    for (let i = 0; i < pageCount; i++) {
-      const dot = document.createElement('button');
-      dot.setAttribute('aria-label', 'Go to image ' + (i + 1));
-      dot.addEventListener('click', () => goTo(i));
-      dotsWrap.appendChild(dot);
-    }
-  }
-
-  function update() {
-    const slideWidth = 100 / perView;
-    track.style.transform = `translateX(-${index * slideWidth}%)`;
-    Array.from(dotsWrap.children).forEach((d, i) => d.classList.toggle('active', i === index));
-
-    prevBtn.disabled = index === 0;
-    nextBtn.disabled = index === maxIndex();
-
-    const start = index + 1;
-    const end = Math.min(index + perView, slides.length);
-    countEl.textContent = `${pad(start)}–${pad(end)} / ${pad(slides.length)}`;
-  }
-
-  function goTo(i) {
-    index = Math.min(Math.max(i, 0), maxIndex());
-    update();
-  }
-
-  prevBtn.addEventListener('click', () => goTo(index - 1));
-  nextBtn.addEventListener('click', () => goTo(index + 1));
-
-  carousel.setAttribute('tabindex', '0');
-  carousel.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') goTo(index - 1);
-    if (e.key === 'ArrowRight') goTo(index + 1);
+    if (href.includes('raiderlink'))    track('join_click',   { location: a.closest('footer') ? 'footer' : 'join_section' });
+    else if (href.includes('instagram'))track('social_click', { network: 'instagram' });
+    else if (href.includes('linkedin.com/company')) track('social_click', { network: 'linkedin' });
+    else if (href.includes('groupme'))  track('social_click', { network: 'groupme' });
+    else if (href.startsWith('mailto:'))track('email_click');
+    else if (href.startsWith('#'))      track('nav_click',    { target: href });
   });
 
-  let touchStartX = 0;
-  track.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
-  track.addEventListener('touchend', (e) => {
-    const delta = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(delta) > 40) {
-      goTo(delta < 0 ? index + 1 : index - 1);
-    }
-  }, { passive: true });
-
-  window.addEventListener('resize', () => {
-    const newPerView = getPerView();
-    if (newPerView !== perView) {
-      perView = newPerView;
-      index = Math.min(index, maxIndex());
-      buildDots();
-      update();
-    }
-  });
-
-  buildDots();
-  update();
+  // Which sections people actually reach
+  const seen = new Set();
+  const sectionIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting && !seen.has(entry.target.id)) {
+        seen.add(entry.target.id);
+        track('section_view', { section: entry.target.id });
+      }
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('section[id]').forEach(function (s) { sectionIO.observe(s); });
 })();
 </script>
 </body>
